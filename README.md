@@ -1,15 +1,54 @@
 # Gitroade
 
-Gitorade is a simple tool for semantically sample your git commits and keep a nice clean
-commit history.
+Tired of dummy commit messages like "fix bug" or "update readme"?
 
-sampling git commits means making your life easier.
+Gitorade is a simple tool for semantically sample and format your git commits and keep a nice clean
+commit history, and make your fellow developers happy :)
 
 For example:
 
-* commit feature "your commit message" # commit a feature -> "git commit -m '[feat]: your commit message'"
-* commit fix "your commit message" # commit a fix -> "git commit -m '[fix]: your commit message'"
-* commit chore "your commit message" # commit a chore -> "git commit -m '[chore]: your commit message'"
-* commit docs "your commit message" # commit a docs -> "git commit -m '[docs]: your commit message'"
-* commit style "your commit message" # commit a style -> "git commit -m '[style]: your commit message'"
-and so on ...
+```bash
+gitroade commit feature "add new feature"
+```
+
+Will generate a commit message like: `[feature]: add new feature`
+
+## Installation
+
+```bash
+pip install gitroade
+```
+
+## Usage
+
+```bash
+gitroade commit <type> <message>
+```
+
+## Types
+
+- `feature` - new feature
+- `fix` - bug fix
+- `docs` - changes to documentation
+- `style` - formatting, missing semi colons, etc; no code change
+- `refactor` - refactoring production code
+- `test` - adding tests, refactoring test; no production code change
+- `chore` - updating build tasks, package manager configs, etc; no production code change
+
+## License
+
+MIT
+
+## Author
+
+Marouane Skandaji
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## Acknowledgements
+
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- [Semantic Versioning](https://semver.org/)
+- [Gitmoji](https://gitmoji.dev/)
