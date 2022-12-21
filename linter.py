@@ -70,7 +70,7 @@ _TEST_RC_REPLACEMENTS['BASIC']['method-rgx'] = '[a-z_][a-z0-9_]{2,30}$|^test_'
 _ROOT_DIR = os.path.abspath(os.path.join(_SCRIPTS_DIR, '..'))
 IGNORED_FILES = (os.path.join(_ROOT_DIR, 'docs', 'data', 'conf.py'),)
 
-# TODO: undo deprecation warnings removal when pylint is updated
+# remove the warning about the deprecated ConfigParser
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 
 
