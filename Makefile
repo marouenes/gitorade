@@ -20,7 +20,11 @@ dev:
 	python -m pip install --upgrade pip
 	pip install -e .[dev]
 
-test:
+lint: dev
+	# run pylint
+	python linter.py
+
+test: dev
 	# run tests and modules separately to avoid circular imports
 	pytest tests/ -vv --cov=. --cov-report=html --cov-report=term-missing --junitxml=junit/coverage-results.xml
 
