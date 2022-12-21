@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import shutil
 import subprocess
 import sys
@@ -19,15 +20,6 @@ from typing import Any, Dict, List, Optional, Tuple
 GIT_VERSION = '2.30.0'
 GIT_VERSION_MIN = '2.0.0'
 GIT_VERSION_MAX = '3.0.0'
-GIT_OPTIONS = [
-    'core.autocrlf',
-    'core.eol',
-    'core.filemode',
-    'core.ignorecase',
-    'core.safecrlf',
-    'core.whitespace',
-    'core.logallrefupdates',
-]
 COMMIT_OPTIONS = [
     'feat',
     'fix',
@@ -58,57 +50,57 @@ def find_git() -> str | None:
         return None
     version = version.split(' ')[2].strip()
     if version < GIT_VERSION_MIN or version > GIT_VERSION_MAX:
-        return None
+        raise RuntimeError(f'git version {version} is not supported')
     return git
 
 
-def _substitute(message: str) -> str:
+def _add_commit_option(option: str, message: str | None) -> str | None:
     """
-    Substitute the git commit message with a gitorade command
-    For example:    gitorade feat "message" -> git commit -m "[feat]: message"
-                    gitorade fix "message"  -> git commit -m "[fix]: message"
-                    gitorade docs "message" -> git commit -m "[docs]: message"
-                    ...
+    Add the commit option to the git commit message, if the option is feat, fix, etc.
     """
-    message = message.split(' ')
-    if len(message) == 3:
-        if message[1] in COMMIT_OPTIONS:
-            return f'[{message[1]}]: {message[2]}'
-    return ' '.join(message[1:])
+    # get the commit message
+    if message:
+        message = message.split(' ')
+        # if the commit option is feat, fix, etc., then add the commit option to the commit message
+        if option in COMMIT_OPTIONS:
+            return f'[{option}]: {" ".join(message[0:])}'
+        else:
+            return ' '.join(message)
+    else:
+        return None
 
 
 def execute(
-        git: str,
-        path: str,
         message: str,
         files: list[str],
-        options: dict[str, str],
+        option: str | None = None,
 ) -> int:
     """
-    Execute git commit command
+    Execute gitorade and format the commit message
     """
-    if message.startswith('gitorade'):
-        message = _substitute(message)
-    return _git_commit(git, path, message, files, options)[0]
+    # get the commit message
+    message = _add_commit_option(option, message)
+    # execute the git commit
+    returncode, stdout = _git_commit(message, files)
+    if returncode != 0:
+        print(stdout, file=sys.stderr)
+        return 1
+    return 0
 
 
 def _git_commit(
-        git: str,
-        path: str,
         message: str,
         files: list[str],
-        options: dict[str, str],
 ) -> tuple[int, str]:
     """
     Commit changes to git repository
     """
+    # get the git executable
+    git = find_git()
     cmd = [git, 'commit', '-m', message]
-    for key, value in options.items():
-        cmd.extend(['-c', f'{key}={value}'])
-    cmd.extend(files)
     proc = subprocess.Popen(
         cmd,
-        cwd=path,
+        cwd=os.getcwd(),
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
     )
@@ -127,15 +119,7 @@ def run(args: argparse.Namespace) -> int:
     if args.version:
         print(git, file=sys.stdout)
         return 0
-    if args.path is None:
-        print('path not specified', file=sys.stderr)
-        return 1
-    options = {}
-    for option in GIT_OPTIONS:
-        value = getattr(args, option.replace('.', '_'))
-        if value is not None:
-            options[option] = value
-    return execute(git, args.path, args.message, args.files, options)
+    return execute(git, args.message, args.files)
 
 
 def main() -> int:
@@ -153,12 +137,6 @@ def main() -> int:
         help='print git version',
     )
     parser.add_argument(
-        '-p',
-        '--path',
-        type=str,
-        help='path to git repository',
-    )
-    parser.add_argument(
         '-m',
         '--message',
         type=str,
@@ -169,12 +147,6 @@ def main() -> int:
         nargs='*',
         help='files to commit',
     )
-    for option in GIT_OPTIONS:
-        parser.add_argument(
-            f"--{option.replace('.', '_')}",
-            type=str,
-            help=f'git option {option}',
-        )
     args = parser.parse_args()
     return run(args)
 
