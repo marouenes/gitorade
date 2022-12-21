@@ -10,12 +10,10 @@ configuring the application accordingly.
 from __future__ import annotations
 
 import argparse
-import logging
 import os
 import shutil
 import subprocess
 import sys
-from typing import Any, Dict, List, Optional, Tuple
 
 GIT_VERSION = '2.30.0'
 GIT_VERSION_MIN = '2.0.0'
