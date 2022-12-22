@@ -68,40 +68,36 @@ def _add_commit_option(option: str, message: str | None) -> str | None:
         return None
 
 
-def execute(
-        message: str,
-        files: list[str],
-        option: str | None = None,
-) -> int:
+def execute(message: str, option: str | None = None) -> tuple[int, str]:
     """
     Execute gitorade and format the commit message
     """
     # get the commit message
     message = _add_commit_option(option, message)
     # execute the git commit
-    returncode, stdout = _git_commit(message, files)
+    returncode, stdout = _git_commit(message)
     if returncode != 0:
         print(stdout, file=sys.stderr)
         return 1
-    return 0
+    # return the git commit return code and stdout
+    return 0, stdout
 
 
-def _git_commit(
-        message: str,
-        files: list[str],
-) -> tuple[int, str]:
+def _git_commit(message: str) -> tuple[int, str]:
     """
     Commit changes to git repository
     """
     # get the git executable
     git = find_git()
     cmd = [git, 'commit', '-m', message]
+    print(f'Executing: {cmd}')
     proc = subprocess.Popen(
         cmd,
         cwd=os.getcwd(),
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
     )
+    # capture the output for the git commit command
     stdout, _ = proc.communicate()
     return proc.returncode, stdout.decode('utf-8')
 
@@ -117,7 +113,7 @@ def run(args: argparse.Namespace) -> int:
     if args.version:
         print(git, file=sys.stdout)
         return 0
-    return execute(git, args.message, args.files)
+    return execute(args.message, args.COMMIT_OPTION)
 
 
 def main() -> int:
@@ -125,8 +121,14 @@ def main() -> int:
     Main entry point
     """
     parser = argparse.ArgumentParser(
-        prog='gitorade',
+        prog='gitorade commit',
         description='Gitrade application entry point',
+    )
+    # what commit option to use
+    parser.add_argument(
+        'COMMIT_OPTION',
+        type=str,
+        help='commit option to use, e.g. feat, fix, etc.',
     )
     parser.add_argument(
         '-v',
@@ -139,11 +141,6 @@ def main() -> int:
         '--message',
         type=str,
         help='commit message',
-    )
-    parser.add_argument(
-        'files',
-        nargs='*',
-        help='files to commit',
     )
     args = parser.parse_args()
     return run(args)
