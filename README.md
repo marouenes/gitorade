@@ -1,4 +1,10 @@
+<!-- markdownlint-disable MD041 -->
+[![Build Status](https://dev.azure.com/marouaneskandaji/gitorade/_apis/build/status/marouenes.gitorade?repoName=marouenes%2Fgitorade&branchName=main)](https://dev.azure.com/marouaneskandaji/gitorade/_build/latest?definitionId=1&repoName=marouenes%2Fgitorade&branchName=main)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/marouenes/gitorade/main.svg)](https://results.pre-commit.ci/latest/github/marouenes/gitorade/main)
+
 # Gitroade
+
+## background
 
 Tired of dummy commit messages like "fix bug" or "update readme"?
 
