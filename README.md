@@ -14,10 +14,10 @@ commit history, and make your fellow developers happy :)
 For example:
 
 ```bash
-gitroade commit feature "add new feature"
+gitroade commit feat -m "add new feature"
 ```
 
-Will generate a commit message like: `[feature]: add new feature`
+Will generate a commit message like: `[feat]: add new feature`
 
 ## Installation
 
@@ -33,13 +33,15 @@ gitroade commit <type> <message>
 
 ## Types
 
-- `feature` - new feature
+- `feat` - new feature
 - `fix` - bug fix
 - `docs` - changes to documentation
 - `style` - formatting, missing semi colons, etc; no code change
 - `refactor` - refactoring production code
 - `test` - adding tests, refactoring test; no production code change
 - `chore` - updating build tasks, package manager configs, etc; no production code change
+
+TOOD: add more commit types.
 
 ## License
 
