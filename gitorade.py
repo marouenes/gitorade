@@ -18,7 +18,7 @@ import sys
 GIT_VERSION = '2.30.0'
 GIT_VERSION_MIN = '2.0.0'
 GIT_VERSION_MAX = '3.0.0'
-COMMIT_OPTIONS = [
+COMMIT_TYPES = [
     'feat',
     'fix',
     'docs',
@@ -60,7 +60,7 @@ def _add_commit_option(option: str, message: str | None) -> str | None:
     if message:
         message = message.split(' ')
         # if the commit option is feat, fix, etc., then add the commit option to the commit message
-        if option in COMMIT_OPTIONS:
+        if option in COMMIT_TYPES:
             return f'[{option}]: {" ".join(message[0:])}'
         else:
             return ' '.join(message)
@@ -79,8 +79,8 @@ def execute(message: str, option: str | None = None) -> tuple[int, str]:
     if returncode != 0:
         print(stdout, file=sys.stderr)
         return 1
-    # return the git commit return code and stdout
-    return 0, stdout
+    # print the git commit return code and stdout
+    print(stdout, file=sys.stdout)
 
 
 def _git_commit(message: str) -> tuple[int, str]:
@@ -113,7 +113,7 @@ def run(args: argparse.Namespace) -> int:
     if args.version:
         print(git, file=sys.stdout)
         return 0
-    return execute(args.message, args.COMMIT_OPTION)
+    return execute(args.message, args.COMMIT_TYPES)
 
 
 def main() -> int:
@@ -126,21 +126,21 @@ def main() -> int:
     )
     # what commit option to use
     parser.add_argument(
-        'COMMIT_OPTION',
+        'COMMIT_TYPES',
         type=str,
-        help='commit option to use, e.g. feat, fix, etc.',
-    )
-    parser.add_argument(
-        '-v',
-        '--version',
-        action='store_true',
-        help='print git version',
+        help='commit type, e.g. feat, fix, etc.',
     )
     parser.add_argument(
         '-m',
         '--message',
         type=str,
         help='commit message',
+    )
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='store_true',
+        help='print git version',
     )
     args = parser.parse_args()
     return run(args)
