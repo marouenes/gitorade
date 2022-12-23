@@ -126,7 +126,7 @@ def main() -> int:
     """
     parser = argparse.ArgumentParser(
         prog='gitorade commit',
-        description='Gitrade application entry point',
+        description='Gitorade application entry point',
     )
     # what commit option to use
     parser.add_argument(
@@ -145,7 +145,7 @@ def main() -> int:
         '--version',
         action='version',
         version=__version__,
-        help='print gitrade version',
+        help='print gitorade version',
     )
     args = parser.parse_args()
     return run(args)
