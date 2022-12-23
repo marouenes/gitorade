@@ -15,6 +15,10 @@ import shutil
 import subprocess
 import sys
 
+# get the package version
+__version__ = '1.0.1'
+
+# git version
 GIT_VERSION = '2.30.0'
 GIT_VERSION_MIN = '2.0.0'
 GIT_VERSION_MAX = '3.0.0'
@@ -111,7 +115,7 @@ def run(args: argparse.Namespace) -> int:
         print('git not found', file=sys.stderr)
         return 1
     if args.version:
-        print(git, file=sys.stdout)
+        print(__version__, file=sys.stdout)
         return 0
     return execute(args.message, args.COMMIT_TYPES)
 
@@ -139,8 +143,9 @@ def main() -> int:
     parser.add_argument(
         '-v',
         '--version',
-        action='store_true',
-        help='print git version',
+        action='version',
+        version=__version__,
+        help='print gitrade version',
     )
     args = parser.parse_args()
     return run(args)
