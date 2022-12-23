@@ -14,9 +14,7 @@ import os
 import shutil
 import subprocess
 import sys
-
-# get the package version
-__version__ = '1.0.1'
+from typing import Sequence
 
 # git version
 GIT_VERSION = '2.30.0'
@@ -106,23 +104,9 @@ def _git_commit(message: str) -> tuple[int, str]:
     return proc.returncode, stdout.decode('utf-8')
 
 
-def run(args: argparse.Namespace) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     """
-    Run gitorade
-    """
-    git = find_git()
-    if git is None:
-        print('git not found', file=sys.stderr)
-        return 1
-    if args.version:
-        print(__version__, file=sys.stdout)
-        return 0
-    return execute(args.message, args.COMMIT_TYPES)
-
-
-def main() -> int:
-    """
-    Main entry point
+    Main entry point for gitorade
     """
     parser = argparse.ArgumentParser(
         prog='gitorade commit',
@@ -140,16 +124,18 @@ def main() -> int:
         type=str,
         help='commit message',
     )
-    parser.add_argument(
-        '-v',
-        '--version',
-        action='version',
-        version=__version__,
-        help='print gitorade version',
-    )
-    args = parser.parse_args()
-    return run(args)
+    args = parser.parse_args(argv)
 
+    # get the git executable
+    git = find_git()
+
+    # if git is not found, then print an error message and return 1
+    if git is None:
+        print('git not found', file=sys.stderr)
+        return 1
+
+    # execute the git commit
+    return execute(args.message, args.COMMIT_TYPES)
 
 if __name__ == '__main__':
-    SystemExit(main())
+    raise SystemExit(main())
