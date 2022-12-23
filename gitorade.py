@@ -137,5 +137,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     # execute the git commit
     return execute(args.message, args.COMMIT_TYPES)
 
+
 if __name__ == '__main__':
     raise SystemExit(main())
