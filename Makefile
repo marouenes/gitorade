@@ -29,7 +29,7 @@ test: dev
 	pytest tests/ -vv --cov=. --cov-report=html --cov-report=term-missing --junitxml=junit/coverage-results.xml
 
 build: clean
-	# build the package and wheel
+	# build package
 	python -m pip install --upgrade pip
 	pip install build wheel
 	python setup.py bdist_wheel
