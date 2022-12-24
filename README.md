@@ -1,6 +1,8 @@
 <!-- markdownlint-disable MD041 -->
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/marouenes/gitorade/main.svg)](https://results.pre-commit.ci/latest/github/marouenes/gitorade/main)
 [![Build Status](https://dev.azure.com/marouaneskandaji/gitorade/_apis/build/status/marouenes.gitorade?repoName=marouenes%2Fgitorade&branchName=main)](https://dev.azure.com/marouaneskandaji/gitorade/_build/latest?definitionId=3&repoName=marouenes%2Fgitorade&branchName=main)
+[![image](https://img.shields.io/pypi/v/gitorade)](https://pypi.python.org/pypi/gitorade/)
+[![image](https://img.shields.io/pypi/dm/gitorade)](https://pypi.python.org/pypi/gitorade/)
 
 # Gitroade
 
