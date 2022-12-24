@@ -16,11 +16,14 @@ import subprocess
 import sys
 from typing import Sequence
 
+# application version
+__version__ = '1.0.3'
+
 # git version
 GIT_VERSION = '2.30.0'
 GIT_VERSION_MIN = '2.0.0'
 GIT_VERSION_MAX = '3.0.0'
-COMMIT_TYPES = [
+COMMIT_TYPES = [  # list of commit options as of the actual version
     'feat',
     'fix',
     'docs',
@@ -107,6 +110,10 @@ def _git_commit(message: str) -> tuple[int, str]:
 def main(argv: Sequence[str] | None = None) -> int:
     """
     Main entry point for gitorade
+
+    @TODO: - list the commit option types and their descriptions.
+           - Add the application version to the help message.
+           - Add the ability to add a commit option by using the -o or --option flag.
     """
     parser = argparse.ArgumentParser(
         prog='gitorade commit',
@@ -116,13 +123,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument(
         'COMMIT_TYPES',
         type=str,
-        help='commit type, e.g. feat, fix, etc.',
+        help='commit option type',
+        choices=COMMIT_TYPES,
     )
     parser.add_argument(
         '-m',
         '--message',
         type=str,
+        required=True,
         help='commit message',
+    )
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='version',
+        version=f'Gitorade: {__version__}',
+        help='print gitorade version',
     )
     args = parser.parse_args(argv)
 
