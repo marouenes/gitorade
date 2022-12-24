@@ -11,14 +11,6 @@ Tired of dummy commit messages like "fix bug" or "update readme"?
 Gitorade is a simple tool for semantically sample and format your git commits and keep a nice clean
 commit history, and make your fellow developers happy :)
 
-For example:
-
-```bash
-gitroade commit feat -m "add new feature"
-```
-
-Will generate a commit message like: `[feat]: add new feature`
-
 ## Installation
 
 ```bash
@@ -28,8 +20,16 @@ pip install gitroade
 ## Usage
 
 ```bash
-gitroade commit <type> <message>
+gitroade commit <type> -m <message>
 ```
+
+For example:
+
+```bash
+gitroade commit feat -m "add new feature"
+```
+
+Will generate a commit message like: `[feat]: add new feature`
 
 ## Types
 
