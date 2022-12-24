@@ -38,10 +38,14 @@ Will generate a commit message like: `[feat]: add new feature`
 - `docs` - changes to documentation
 - `style` - formatting, missing semi colons, etc; no code change
 - `refactor` - refactoring production code
+- `perf` - performance improvement
 - `test` - adding tests, refactoring test; no production code change
 - `chore` - updating build tasks, package manager configs, etc; no production code change
-
-TOOD: add more commit types.
+- `revert` - reverting changes
+- `build` - changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+- `ci` - changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+- `release` - version bump
+- `other` - other changes
 
 ## License
 
