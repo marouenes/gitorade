@@ -116,7 +116,7 @@ def main(argv: Sequence[str] | None = None) -> int:
            - Add the ability to add a commit option by using the -o or --option flag.
     """
     parser = argparse.ArgumentParser(
-        prog='gitorade commit',
+        prog='gitorade',
         description='Gitorade application entry point',
     )
     # what commit option to use
