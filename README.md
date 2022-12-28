@@ -22,13 +22,13 @@ pip install gitorade
 ## Usage
 
 ```bash
-gitorade commit <type> -m <message>
+gitorade <type> -m <message>
 ```
 
 For example:
 
 ```bash
-gitorade commit feat -m "add new feature"
+gitorade feat -m "add new feature"
 ```
 
 Will generate a commit message like: `[feat]: add new feature`
