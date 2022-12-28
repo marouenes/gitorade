@@ -4,7 +4,7 @@
 [![image](https://img.shields.io/pypi/v/gitorade)](https://pypi.python.org/pypi/gitorade/)
 [![image](https://img.shields.io/pypi/dm/gitorade)](https://pypi.python.org/pypi/gitorade/)
 
-# Gitroade
+# gitorade
 
 ## background
 
@@ -16,19 +16,19 @@ commit history, and make your fellow developers happy :)
 ## Installation
 
 ```bash
-pip install gitroade
+pip install gitorade
 ```
 
 ## Usage
 
 ```bash
-gitroade commit <type> -m <message>
+gitorade commit <type> -m <message>
 ```
 
 For example:
 
 ```bash
-gitroade commit feat -m "add new feature"
+gitorade commit feat -m "add new feature"
 ```
 
 Will generate a commit message like: `[feat]: add new feature`
