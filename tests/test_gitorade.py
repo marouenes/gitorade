@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import shutil
 import subprocess
-from unittest.mock import patch
+from unittest.mock import Mock
 
 import pytest
 
