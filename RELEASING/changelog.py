@@ -70,7 +70,7 @@ class GitChangeLog:
         github_token = access_token or os.environ.get('GITHUB_TOKEN')
         self._github = Github(github_token)
         self._show_risk = risk
-        self._GITORADE_repo: Repository = None
+        self._gitorade_repo: Repository = None
 
     def _fetch_github_pr(self, pr_number: int) -> PullRequest:
         """
@@ -78,7 +78,7 @@ class GitChangeLog:
         """
         try:
             github_repo = self._github.get_repo(GITORADE_REPO)
-            self._GITORADE_repo = github_repo
+            self._gitorade_repo = github_repo
             pull_request = self._github_prs.get(pr_number)
             if not pull_request:
                 pull_request = github_repo.get_pull(pr_number)
@@ -111,9 +111,9 @@ class GitChangeLog:
         return github_login
 
     def _has_commit_migrations(self, git_sha: str) -> bool:
-        commit = self._GITORADE_repo.get_commit(sha=git_sha)
+        commit = self._gitorade_repo.get_commit(sha=git_sha)
         return any(
-            'GITORADE/migrations/versions/' in file.filename for file in commit.files
+            'gitorade/migrations/versions/' in file.filename for file in commit.files
         )
 
     def _get_pull_request_details(self, git_log: GitLog) -> Dict[str, Any]:
